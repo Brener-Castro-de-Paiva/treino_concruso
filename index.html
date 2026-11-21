@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- PARALAX -->
+     <section class="parallax">
+        <h1>Analise de Desempenho</h1>
+        <p>Registre seu resultado e descubra onde melhorar</p>
+     </section>
+
+     <!-- CONTEUDO PRINCIPAL -->
+      <main>
+        <section id="fomulario-section">
+            <h2>Registra Novo Simulado</h2>
+
+            <form id="form-simulado">
+                <div>
+                    <label for="nome">Seu Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="concurso">Concurso Alvo:</label>
+                    <input type="text" id="concurso" name="concurso" placeholder="Ex: PF, Procuradoria" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="materias">Matéria (separadas por vígulas):</label>
+                    <input type="text" id="materias" name="materias" placeholder="Ex: Portugue, Direito, Matemática" required>
+                </div>
+                 
+                <div class="input-group">
+                    <label for="percental">Percentual de Acerto (%):</label>
+                    <input type="number
+                    " id="percentual" name="percentual" min="0" max="100" placeholder="Ex:75" required>
+                </div>
+
+                <button type="submit" id="btn-salva">Salvar e Analisar</button>
+            </form>
+            
+            <div id="mensagem"></div>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2026 - Sistema de Analise de Concurso - Desenvolvido por Brener Castro de Paiva </p>
+      </footer>
+
+      <!-- SDK do Supabase -->
+       <script src="https://cdn.jsdelivr.net/npm/@supabse/supabse-js@2"></script>
+       <script src="scritp.js"></script>
+</body>
+</html>

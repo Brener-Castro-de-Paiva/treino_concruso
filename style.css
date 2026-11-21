@@ -1,0 +1,150 @@
+/* RESET */
+*{margin: 0; padding: 0; box-sizing: border-box;}
+
+body{
+    font-family: 'Segoe UI', Roboto, Arial, Helvetica, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Parallax */
+.parallax{
+height: 60vh;
+background-image: url(img/concurso.png);
+background-attachment: fixed;
+background-size: cover;
+background-position: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+color: #fff;
+text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+position: relative;
+}
+
+.parallax::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5); /*Escurece a imagem para o texto aparecer */
+    z-index: 0;
+}
+
+/* main */
+main{
+
+    max-width: 700px;
+    margin: -50px auto 40px; /* Sober um pouco para sobrepor o parallax */
+    padding: 0 20px;
+    position: relative;
+    z-index:2;
+}
+
+section{
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+
+h2{
+    color: #1a2373;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* Formulário */
+.input-group{
+    margin-bottom: 2px;
+}
+.input-group label{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+.input-group input{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+.input-group input:focus{
+    outline: none;
+    boder-color: #1a237e;
+}
+
+#btn-savar{
+    width: 100%;
+    padding: 15px;
+    background: #1a237e;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#btn-salvar:hover {background: #0d144a;}
+
+#mensagem{
+    margin-top: 15px;
+    text-aling: center;
+    font-weight: bold;
+}
+
+/* Card de Resultado */
+.card{
+    background: #f9f9f9;
+    border-left: 6px solid #1a237e;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.card h3{color: #1a237e; margin-bottom: 15px;}
+.card p{ margin-bottom: 10px; font-size: 1.1rem;}
+.destaque{
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.verde{background: #e8f5e9; color: #2e7d32;}
+.vermelho{background: #ffebee; color: #c62828;}
+.amarelo{background: #fff8e1; color: #f57f17;}
+
+#btn-novo{
+    width: 100%;
+    padding: 12px;
+    background: #eee;
+    color: #333;
+    border: 1px solid 3#ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+#btn-novo:hover {background: #ddd}
+
+footer{
+    text-aling: center;
+    padding: 20px;
+    color: #777;
+}
+
+
