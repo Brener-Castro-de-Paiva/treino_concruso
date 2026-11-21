@@ -4,23 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Análise de Desempenho - Concursos</title>
 </head>
 <body>
 
-    <!-- PARALAX -->
-     <section class="parallax">
-        <h1>Analise de Desempenho</h1>
+    <!-- PARALLAX -->
+    <section class="parallax">
+        <h1>Análise de Desempenho</h1>
         <p>Registre seu resultado e descubra onde melhorar</p>
-     </section>
+    </section>
 
-     <!-- CONTEUDO PRINCIPAL -->
-      <main>
-        <section id="fomulario-section">
-            <h2>Registra Novo Simulado</h2>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+        <!-- FORMULÁRIO -->
+        <section id="formulario-section">
+            <h2>Registrar Novo Simulado</h2>
 
             <form id="form-simulado">
-                <div>
+                <div class="input-group">
                     <label for="nome">Seu Nome:</label>
                     <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
                 </div>
@@ -31,29 +32,117 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="materias">Matéria (separadas por vígulas):</label>
-                    <input type="text" id="materias" name="materias" placeholder="Ex: Portugue, Direito, Matemática" required>
+                    <label for="materias">Matérias (separadas por vírgulas):</label>
+                    <input type="text" id="materias" name="materias" placeholder="Ex: Português, Direito, Matemática" required>
                 </div>
                  
                 <div class="input-group">
-                    <label for="percental">Percentual de Acerto (%):</label>
-                    <input type="number
-                    " id="percentual" name="percentual" min="0" max="100" placeholder="Ex:75" required>
+                    <label for="percentual">Percentual de Acerto (%):</label>
+                    <input type="number" id="percentual" name="percentual" min="0" max="100" placeholder="Ex: 75" required>
                 </div>
 
-                <button type="submit" id="btn-salva">Salvar e Analisar</button>
+                <button type="submit" id="btn-salvar">Salvar e Analisar</button>
             </form>
             
             <div id="mensagem"></div>
         </section>
-      </main>
 
-      <footer>
-        <p>&copy; 2026 - Sistema de Analise de Concurso - Desenvolvido por Brener Castro de Paiva </p>
-      </footer>
+        <!-- ÁREA DE RESULTADO -->
+        <section id="resultado-section" style="display: none;">
+            <h2>Análise do seu Desempenho</h2>
+            <div id="card-resultado" class="card">
+                <!-- O JavaScript vai preencher aqui -->
+            </div>
+            <button id="btn-novo" onclick="window.location.reload()">Fazer Novo Registro</button>
+        </section>
+    </main>
 
-      <!-- SDK do Supabase -->
-       <script src="https://cdn.jsdelivr.net/npm/@supabse/supabse-js@2"></script>
-       <script src="scritp.js"></script>
+     <footer>
+        <p>&copy; 2026 - Sistema de Análise de Concurso - Desenvolvido por Brener Castro de Paiva</p>
+    </footer>
+
+    <!-- SDK do Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <!-- CÓDIGO JAVASCRIPT AQUI DENTRO -->
+    <script>
+        // 1. Configurar o Supabase
+        const SUPABASE_URL = 'https://jmxtodoxnwoebsjttuld.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_YDupmBrVEm6i00kIkodNqA_gfNxOKq_';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // 2. Lógica de Envio do Formulário
+        document.getElementById("form-simulado").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            // Pega os valores
+            const nome = document.getElementById("nome").value.trim();
+            const concurso = document.getElementById("concurso").value.trim();
+            const materias = document.getElementById("materias").value.trim();
+            const percentual = parseInt(document.getElementById("percentual").value);
+            const mensagem = document.getElementById("mensagem");
+
+            // Feedback visual
+            mensagem.textContent = "Salvando no banco...";
+            mensagem.style.color = "#1a237e";
+
+            // 3. Envia para o Supabase
+            const { error } = await _supabase
+                .from('simulados')
+                .insert([{ 
+                    nome: nome, 
+                    concurso: concurso, 
+                    materias: materias, 
+                    percentual: percentual 
+                }]);
+             console.log("O Supabase respondeu:", error); // <--- ADICIONE ISSO AQUI
+
+            if (error) {
+                console.error(error);
+                mensagem.textContent = "❌ Erro ao salvar. Tente novamente.";
+                mensagem.style.color = "#c62828";
+                return;
+            }
+
+            // 4. Se salvou, gera a análise na tela (Efeito para o vídeo)
+            gerarAnalise(nome, concurso, materias, percentual);
+        });
+
+        // 5. Função que cria o card de análise baseado na nota
+        function gerarAnalise(nome, concurso, materias, percentual) {
+            // Esconde o form e mostra o resultado
+            document.getElementById("formulario-section").style.display = "none";
+            const sectionResultado = document.getElementById("resultado-section");
+            sectionResultado.style.display = "block";
+
+            // Descobre a cor e a mensagem baseada na nota
+            let classeCor, textoStatus, conselho;
+            
+            if (percentual >= 80) {
+                classeCor = "verde"; textoStatus = "Excelente!";
+                conselho = "Você está no caminho certo. Foque em revisões espaçadas para não esquecer o conteúdo.";
+            } else if (percentual >= 60) {
+                classeCor = "amarelo"; textoStatus = "Bom, mas pode melhorar!";
+                conselho = `Você está na média. Das matérias listadas (${materias}), foque nas que você tem mais dificuldade e faça mais questões.`;
+            } else {
+                classeCor = "vermelho"; textoStatus = "Atenção!";
+                conselho = "Nota abaixo do ideal. O ideal é revisar a teoria das matérias: " + materias + " antes de fazer novos simulados.";
+            }
+
+            // Monta o HTML do resultado
+            const card = document.getElementById("card-resultado");
+            card.innerHTML = `
+                <h3>Olá, ${nome}!</h3>
+                <p>Meta: <strong>${concurso}</strong></p>
+                <div class="destaque ${classeCor}">
+                    ${percentual}% de Acerto - ${textoStatus}
+                </div>
+                <p><strong>Análise:</strong> ${conselho}</p>
+            `;
+
+            // Rola a página até o resultado para ficar bonito no vídeo
+            sectionResultado.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
